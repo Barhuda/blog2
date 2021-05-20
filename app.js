@@ -73,10 +73,15 @@ app.get("/compose", function (req, res) {
 })
 
 app.get("/posts/:postId", function (req, res) {
-  var selectedPost;
+
   Post.findById(req.params.postId, function (err, foundPost) {
-    console.log(foundPost);
-    res.render("post", { postTitle: foundPost.title, postBody: _.trim(foundPost.body, { "length": 25 }) });
+    if (foundPost === null) {
+      res.redirect("/")
+    } else {
+      console.log(foundPost);
+      res.render("post", { postTitle: foundPost.title, postBody: _.trim(foundPost.body, { "length": 25 }) });
+    }
+
   })
 
 
